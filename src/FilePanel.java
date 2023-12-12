@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
 public class FilePanel {
+    public Path filee;
     private SimpleGUI simpleGUI;
     public int index;
     public JPanel thispanel = new JPanel();
@@ -12,11 +14,16 @@ public class FilePanel {
     private JButton upButton = new JButton("up");
     private JButton downButton = new JButton("down");
     private JButton removeButton = new JButton("remove");
-    public FilePanel(String fileName, int indexx, SimpleGUI gui){
+    public FilePanel(Path file, int indexx, SimpleGUI gui){
         simpleGUI = gui;
         index = indexx;
+        filee = file;
         thispanel.setLayout(new GridLayout(1, 4));
-        label.setText(fileName);
+        String labelText = "";
+        try {
+            labelText = file.getFileName().toString() + " - " + Main.getCoordSys(file);
+        } catch (FileNotFoundException e) {}
+        label.setText(labelText);
         thispanel.add(label);
         upButton.addActionListener(new UpButtonListener());
         thispanel.add(upButton);

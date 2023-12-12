@@ -42,12 +42,11 @@ public class Main {
         app.setVisible(true);
     }
 
-    public static void outputWrite(List<Path>  keyy) throws IOException {
+    public static void outputWrite(List<Path>  keyy, String outputName) throws IOException {
         paths = keyy;
         finalAns = concatFiles(paths);
-        FileWriter fstream = new FileWriter(dir + "\\output.P00");
+        FileWriter fstream = new FileWriter(dir + "\\"  + outputName + ".P00");
         BufferedWriter out = new BufferedWriter(fstream);
-        JOptionPane.showMessageDialog(null, dir, "qeq", JOptionPane.PLAIN_MESSAGE);
         out.write(finalAns);
         out.close();
         fstream.close();
