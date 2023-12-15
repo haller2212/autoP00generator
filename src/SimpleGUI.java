@@ -3,17 +3,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.http.WebSocket;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
-
 public class SimpleGUI extends JFrame {
-    private JPanel jPanel = new JPanel();
-    public JTextField textField =  new JTextField("out");
     public List<Path> files;
     public String dir;
     public List<FilePanel> rows = new ArrayList<>();
@@ -27,13 +21,10 @@ public class SimpleGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container container = this.getContentPane();
         int rowscount = fileNames.size();
-        container.setLayout(new GridLayout(rowscount + 2, 1));
+        container.setLayout(new GridLayout(rowscount + 1, 1));
         for (int i = 0; i < fileNames.size(); i++) {
-            rows.add(new FilePanel(fileNames.get(i), i, this));
+            rows.add(new FilePanel(String.valueOf(fileNames.get(i).getFileName()), i, this));
         }
-        jPanel.add(new JLabel("output name:"));
-        jPanel.add(textField);
-        jPanel.setLayout(new GridLayout(1, 2));
         rowsRegenerate(container);
     }
 
@@ -43,7 +34,6 @@ public class SimpleGUI extends JFrame {
             container.add(rows.get(i).thispanel);
             rows.get(i).index = i;
         }
-        container.add(jPanel);
         container.add(generateButton);
         container.revalidate();
 
@@ -52,16 +42,8 @@ public class SimpleGUI extends JFrame {
     class GenerateButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (rows.size() == 0){
-                JOptionPane.showMessageDialog(null, "Все файлы были удаленны", "error", JOptionPane.PLAIN_MESSAGE);
-            }
-
-            List<Path> files2 = new ArrayList<>();
-            for (int i = 0; i < rows.size(); i++) {
-                files2.add(rows.get(i).filee);
-            }
             try {
-                Main.outputWrite(files2, textField.getText());
+                Main.outputWrite(files);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

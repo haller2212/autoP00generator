@@ -22,7 +22,7 @@ public class Main {
 //      String currentDir = System.getProperty("user.dir");
 
         dir = System.getProperty("user.dir");
-        Path path = Path.of(dir);
+        Path path = new File(dir).toPath();
         List<Path> paths = new ArrayList<>();
         List<Path> finalPaths = paths;
         Files.walk(path, FOLLOW_LINKS)
@@ -42,11 +42,12 @@ public class Main {
         app.setVisible(true);
     }
 
-    public static void outputWrite(List<Path>  keyy, String outputName) throws IOException {
+    public static void outputWrite(List<Path>  keyy) throws IOException {
         paths = keyy;
         finalAns = concatFiles(paths);
-        FileWriter fstream = new FileWriter(dir + "\\"  + outputName + ".P00");
+        FileWriter fstream = new FileWriter(dir + "\\output.P00");
         BufferedWriter out = new BufferedWriter(fstream);
+        JOptionPane.showMessageDialog(null, dir, "qeq", JOptionPane.PLAIN_MESSAGE);
         out.write(finalAns);
         out.close();
         fstream.close();
@@ -98,7 +99,12 @@ public class Main {
     }
 
     public static String toStr(Path path) throws IOException {
-        String result = Files.readString(path);
+        BufferedReader reader = new BufferedReader(new FileReader(String.valueOf(path)));
+        String result = "";
+        while ((reader.readLine()) != null) {
+            result = reader.readLine();
+        }
+        reader.close();
         return result;
     }
 
