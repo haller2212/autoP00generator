@@ -3,13 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.http.WebSocket;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
 
 public class SimpleGUI extends JFrame {
     private JPanel jPanel = new JPanel();
@@ -39,6 +35,7 @@ public class SimpleGUI extends JFrame {
 
     public void rowsRegenerate(Container container) {
         container.removeAll();
+        container.setLayout(new GridLayout(files.size() + 2, 1));
         for (int i = 0; i < rows.size(); i++) {
             container.add(rows.get(i).thispanel);
             rows.get(i).index = i;
