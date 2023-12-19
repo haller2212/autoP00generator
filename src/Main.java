@@ -22,8 +22,7 @@ public class Main {
 //      String currentDir = System.getProperty("user.dir");
 
         dir = System.getProperty("user.dir");
-        File asd = new File(dir);
-        Path path = asd.toPath();
+        Path path = Path.of(dir);
         List<Path> paths = new ArrayList<>();
         List<Path> finalPaths = paths;
         Files.walk(path, FOLLOW_LINKS)
@@ -46,13 +45,9 @@ public class Main {
     public static void outputWrite(List<Path>  keyy, String outputName) throws IOException {
         paths = keyy;
         finalAns = concatFiles(paths);
-        File file = new File(dir + "\\"  + outputName + ".P00");
-        if (!file.createNewFile()){
-            System.out.println("файл не был создан");
-        }
-        FileWriter fstream = new FileWriter(file);
+        FileWriter fstream = new FileWriter(dir + "\\"  + outputName + ".P00");
         BufferedWriter out = new BufferedWriter(fstream);
-        fstream.write(finalAns);
+        out.write(finalAns);
         out.close();
         fstream.close();
     }
@@ -103,8 +98,7 @@ public class Main {
     }
 
     public static String toStr(Path path) throws IOException {
-        String result = Files.newBufferedReader(path).readLine();
-
+        String result = Files.readString(path);
         return result;
     }
 
